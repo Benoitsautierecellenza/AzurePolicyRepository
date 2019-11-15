@@ -1,0 +1,45 @@
+{
+  "properties": {
+    "displayName": "KeyVaultSoftDeletePurgeProtection",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Enforce Soft-Delete & Purge Protection for Key Vaults",
+    "parameters": {
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field" : "type",
+            "equals" : "Microsoft.KeyVault/vaults"
+        },
+        {
+            "anyof" : [
+                {
+                    "field" : "Microsoft.KeyVault/vaults/enableSoftDelete",
+                    "equals" : "false"
+                },
+                {
+                    "field" : "Microsoft.KeyVault/vaults/enablePurgeProtection",
+                    "equals" : "false"
+                }
+            ]
+        }
+        ]
+      },
+      "then": {
+        "effect": "append",
+        "details" : [
+          {
+            "field" : "Microsoft.KeyVault/vaults/EnableSoftDelete",
+            "value" : "true"
+          },
+          {
+            "field" : "Microsoft.KeyVault/vaults/EnablePurgeProtection",
+            "value" : "true"
+          }
+        ]
+      }
+    }
+  }
+}
