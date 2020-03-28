@@ -1,0 +1,23 @@
+"policyrule": {
+    "if": {
+        "anyOf": [
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualnetworks"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Network/VirtualNetworks/AddressSpace.AddressPrefixes[*]",
+                            "in": "Parameters('addressPrefix')"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+},
+"then": {
+    "effet": "deny"
+}
